@@ -22,7 +22,34 @@ public class ImageTest {
 			e.printStackTrace();
 		} //try catch
 		
+		int side = 3;
 		
+		System.out.println(426 < img.getHeight());
+		
+		for(int i = 0; i < img.getWidth() - side - 1; i += side){
+			for(int j = 0; j < img.getHeight() - side - 1; j += side){
+				
+				int rgb = 0;
+				
+				for(int x = i; x < i + side; x++){
+					for(int y = j; y < j + side; y++){
+						
+						System.out.println("(" + x +", " + y + ")");
+						
+						rgb += img.getRGB(x, y);
+					} //for
+				} //for		
+				
+				rgb /= side * side;
+				
+				for(int x = i; x < i + side; x++){
+					for(int y = j; y < j + side; y++){
+						
+						img.setRGB(x, y, rgb);
+					} //for
+				} //for	
+			} //for
+		} //for
 		
 		
 		
