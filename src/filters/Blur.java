@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import utility.ColorConverter;
+import utility.Utility;
 
 public class Blur {
 
@@ -30,7 +30,7 @@ public class Blur {
 
 						System.out.println("(" + x + ", " + y + ")");
 
-						int[] pix = ColorConverter.HexToRGB(img.getRGB(x, y));
+						int[] pix = Utility.HexToRGB(img.getRGB(x, y));
 
 						for(int k = 0; k < 3; k++)
 							rgb[k] += pix[k];
@@ -41,7 +41,7 @@ public class Blur {
 				for(int k = 0; k < 3; k++)
 					rgb[k] /= (pixe * pixe); 
 
-				color = ColorConverter.RGBtoHex(rgb[0], rgb[1], rgb[2]);
+				color = Utility.RGBtoHex(rgb[0], rgb[1], rgb[2]);
 				
 				//go through the pixel setting the color to the average color
 				for(int x = i; x < i + 3; x++)
@@ -64,7 +64,7 @@ public class Blur {
 			e.printStackTrace();
 		}//try catch 
 
-		blur(img, 9);
+		blur(img, 3);
 		
 		File output = new File("TestOut.jpg");
 

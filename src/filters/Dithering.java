@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import utility.ColorConverter;
+import utility.Utility;
 
 public class Dithering {
 
@@ -30,7 +30,7 @@ public class Dithering {
 
 						System.out.println("(" + x + ", " + y + ")");
 
-						int[] pix = ColorConverter.HexToRGB(img.getRGB(x, y));
+						int[] pix = Utility.HexToRGB(img.getRGB(x, y));
 
 						for(int k = 0; k < 3; k++)
 							rgb[k] += pix[k];
@@ -101,7 +101,7 @@ public class Dithering {
 				
 				
 				//sets the dithered color
-				color = ColorConverter.RGBtoHex(rgb[0], rgb[1], rgb[2]);
+				color = Utility.RGBtoHex(rgb[0], rgb[1], rgb[2]);
 
 				//go through the pixel setting the color to the average color
 				for(int x = i; x < i + pixSize; x++)
@@ -117,7 +117,7 @@ public class Dithering {
 
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("TestImageThree.jpg"));
+			img = ImageIO.read(new File("TestImageFour.jpg"));
 		} catch (IOException e) {
 
 			System.out.println("Image Not Found");
@@ -126,29 +126,28 @@ public class Dithering {
 
 		BufferedImage img2 = null;
 		try {
-			img2 = ImageIO.read(new File("TestImageTwo.jpg"));
+			img2 = ImageIO.read(new File("TestImageFour.jpg"));
 		} catch (IOException e) {
 
 			System.out.println("Image Not Found");
 			e.printStackTrace();
 		}//try catch 
 		
-		dither(img, 27, 3);
-		dither(img2, 27, 1);
+		dither(img, 9, 1);
 		
 		File output = new File("TestOut.jpg");
 
-		try {
-			ImageIO.write(img, "jpg", output);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} //try catch
-
+//		try {
+//			ImageIO.write(img, "jpg", output);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} //try catch
+//
 		boolean[][] border = Border.getBorderLocation(img2);
 		Border.drawBorder(img, border);
-		
-		output = new File("TestOut.jpg");
+//		
+//		output = new File("TestOut.jpg");
 
 		try {
 			ImageIO.write(img, "jpg", output);

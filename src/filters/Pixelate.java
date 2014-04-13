@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import utility.ColorConverter;
+import utility.Utility;
 
 
 public class Pixelate {
@@ -31,7 +31,7 @@ public class Pixelate {
 
 						System.out.println("(" + x + ", " + y + ")");
 						
-						int[] pix = ColorConverter.HexToRGB(img.getRGB(x, y));
+						int[] pix = Utility.HexToRGB(img.getRGB(x, y));
 
 						for(int k = 0; k < 3; k++)
 							rgb[k] += pix[k];
@@ -42,7 +42,7 @@ public class Pixelate {
 				for(int k = 0; k < 3; k++)
 					rgb[k] /= (pixSize * pixSize); 
 
-				color = ColorConverter.RGBtoHex(rgb[0], rgb[1], rgb[2]);
+				color = Utility.RGBtoHex(rgb[0], rgb[1], rgb[2]);
 				
 				//go through the pixel setting the color to the average color
 				for(int x = i; x < i + pixSize; x++)

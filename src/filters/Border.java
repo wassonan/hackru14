@@ -6,6 +6,8 @@ package filters;
 
 import java.awt.image.BufferedImage;
 
+import utility.Utility;
+
 public class Border {
 
 	//adds a border between areas of different color
@@ -79,12 +81,6 @@ public class Border {
 	//paints the border based on the passed in locations
 	public static void drawBorder(BufferedImage img, boolean[][] points){
 		
-		for(int i = 0; i < points.length; i++)
-			for(int j = 0; j < points[i].length; j++){
-				
-				System.out.println("Painting Border (" + i +", " + j + ")");
-				if(points[i][j])
-					img.setRGB(i, j, 0);
-			} //for
+		Utility.fill(img, points, 0);
 	} //drawBorder
 } //Border

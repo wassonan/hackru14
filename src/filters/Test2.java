@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import utility.ColorConverter;
+import utility.Utility;
 
 
 /* Wasson An
@@ -53,7 +53,7 @@ public class Test2 {
 
 						System.out.println("Dithering (" + x +", " + y + ")");
 
-						int[] pixel = ColorConverter.HexToRGB(img.getRGB(x, y));
+						int[] pixel = Utility.HexToRGB(img.getRGB(x, y));
 
 						rgb[0] += pixel[0];
 						rgb[1] += pixel[1];
@@ -84,7 +84,7 @@ public class Test2 {
 				for(int x = i; x < i + width; x++){
 					for(int y = j; y < j + height; y++){
 
-						int pixel = ColorConverter.RGBtoHex(rgb[0], rgb[1], rgb[2]);
+						int pixel = Utility.RGBtoHex(rgb[0], rgb[1], rgb[2]);
 						
 						img.setRGB(i, j, pixel);
 					} //for
