@@ -69,7 +69,7 @@ public class Polygonize {
 		y = 0;
 
 		//right
-		while(x >= 0 && !points[x][y]){
+		while(x > 0 && !points[x][y]){
 
 			x--;
 			y = 0;
@@ -116,28 +116,82 @@ public class Polygonize {
 	} //polygonize
 
 	public static BufferedImage autoPolygonizeForLazyRam(BufferedImage img){
-		
+
 		int back = Color.GRAY.getRGB();
-		
+
 		BufferedImage img3 = new BufferedImage(img.getWidth(), img.getHeight(),
 				img.getType());
 
 		for(int i = 0; i < img3.getWidth(); i++)
 			for(int j = 0; j < img3.getHeight(); j++)
 				img3.setRGB(i, j, back);
-		
+
 		for(int i = 0; i < img.getWidth(); i += 81){
 			for(int j = 0; j < img.getHeight(); j += 81){
-				
+
 				if(img3.getRGB(i, j) == back)
 					Utility.fill(img3, polygonize(Propagate.propagate(img3, i, j)),
-							img3.getRGB(i, j));
+							img.getRGB(i, j));
 			} //for
 		} //for
-		
+
 		return img3;
 	} //fuck this
+
 	
+	public static BufferedImage autoPolygonizeForLazyRam2(BufferedImage img){
+
+		Simplify.simplify(img);
+		Pixelate.pixilate(img, 1);
+		Simplify.simplify(img);
+
+		int back = Color.GRAY.getRGB();
+
+		BufferedImage img2 = new BufferedImage(img.getWidth(), img.getHeight(),
+				img.getType());
+
+		for(int i = 0; i < img2.getWidth(); i++)
+			for(int j = 0; j < img2.getHeight(); j++)
+				img2.setRGB(i, j, back);
+
+		BufferedImage img3 = new BufferedImage(img.getWidth(), img.getHeight(),
+				img.getType());
+
+		for(int i = 0; i < img3.getWidth(); i++)
+			for(int j = 0; j < img3.getHeight(); j++)
+				img3.setRGB(i, j, back);
+
+		//Random Polygonization
+
+		for(int i = 0; i < 20; i++){
+
+			int x = (int)(Math.random() * img.getWidth());
+			int y = (int)(Math.random() * img.getHeight());
+
+			while(img3.getRGB(x, y) != back){
+
+				x = (int)(Math.random() * img.getWidth());
+				y = (int)(Math.random() * img.getHeight());
+			} //while
+
+			int color = img.getRGB(x, y);
+			boolean[][] points = Propagate.propagate(img, x, y);
+
+			Utility.fill(img2, points, color);
+			Utility.fill(img3, polygonize(points), color);
+		} //for
+
+		int x = 200;
+		int y = 100;
+
+		int color = img.getRGB(x, y);
+		boolean[][] points = Propagate.propagate(img, x, y);
+
+		Utility.fill(img2, points, color);
+		Utility.fill(img3, polygonize(points), color);
+		
+		return img3;
+	} //2
 
 	public static void main(String[] args){
 
@@ -181,49 +235,68 @@ public class Polygonize {
 				img3.setRGB(i, j, back);
 
 		//Random Polygonization
-		
-//		for(int i = 0; i < 10; i++){
-//			
-//			int x = (int)(Math.random() * img.getWidth());
-//			int y = (int)(Math.random() * img.getHeight());
-//			
-//			while(img3.getRGB(x, y) != back){
-//				
-//				x = (int)(Math.random() * img.getWidth());
-//				y = (int)(Math.random() * img.getHeight());
-//			} //while
-//			
-//			int color = img.getRGB(x, y);
-//			boolean[][] points = Propagate.propagate(img, x, y);
-//
-//			Utility.fill(img2, points, color);
-//
-//			output = new File("Test2Out.jpg");
-//
-//			try {
-//				ImageIO.write(img2, "jpg", output);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} //try catch
-//
-//			
-//
-//			System.out.println("Starting Polygonization");
-//
-//			Utility.fill(img3, polygonize(points), color);
-//		} //for
-		
-		for(int x = 0; x < img3.getWidth(); x++){
-			for(int y = 0; y < img3.getHeight(); y++){
-				
-				if(img3.getRGB(x, y) == back)
-					Utility.fill(img3, polygonize(Propagate.propagate(img3, x, y)),
-							img3.getRGB(x, y));
-			} //for
+
+		for(int i = 0; i < 20; i++){
+
+			int x = (int)(Math.random() * img.getWidth());
+			int y = (int)(Math.random() * img.getHeight());
+
+			while(img3.getRGB(x, y) != back){
+
+				x = (int)(Math.random() * img.getWidth());
+				y = (int)(Math.random() * img.getHeight());
+			} //while
+
+			int color = img.getRGB(x, y);
+			boolean[][] points = Propagate.propagate(img, x, y);
+
+			Utility.fill(img2, points, color);
+
+			output = new File("Test2Out.jpg");
+
+			try {
+				ImageIO.write(img2, "jpg", output);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} //try catch
+
+
+			Utility.fill(img3, polygonize(points), color);
 		} //for
+
+		int x = 200;
+		int y = 100;
+
+		int color = img.getRGB(x, y);
+		boolean[][] points = Propagate.propagate(img, x, y);
+
+		Utility.fill(img2, points, color);
+
+		output = new File("Test2Out.jpg");
+
+		try {
+			ImageIO.write(img2, "jpg", output);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //try catch
 		
-		
+		Utility.fill(img3, polygonize(points), color);
+
+
+		//		for(int x = 0; x < img3.getWidth(); x++){
+		//			for(int y = 0; y < img3.getHeight(); y++){
+		//				
+		//				if(img3.getRGB(x, y) == back)
+		//					Utility.fill(img3, polygonize(Propagate.propagate(img3, x, y)),
+		//							img3.getRGB(x, y));
+		//			} //for
+		//		} //for
+
+		//		BufferedImage img3 = autoPolygonizeForLazyRam(img);
+
+
 		output = new File("TestOut.jpg");
 
 		try {
