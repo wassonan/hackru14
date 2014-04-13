@@ -115,6 +115,29 @@ public class Polygonize {
 		return toReturn;
 	} //polygonize
 
+	public static BufferedImage autoPolygonizeForLazyRam(BufferedImage img){
+		
+		int back = Color.GRAY.getRGB();
+		
+		BufferedImage img3 = new BufferedImage(img.getWidth(), img.getHeight(),
+				img.getType());
+
+		for(int i = 0; i < img3.getWidth(); i++)
+			for(int j = 0; j < img3.getHeight(); j++)
+				img3.setRGB(i, j, back);
+		
+		for(int i = 0; i < img.getWidth(); i += 81){
+			for(int j = 0; j < img.getHeight(); j += 81){
+				
+				if(img3.getRGB(i, j) == back)
+					Utility.fill(img3, polygonize(Propagate.propagate(img3, i, j)),
+							img3.getRGB(i, j));
+			} //for
+		} //for
+		
+		return img3;
+	} //fuck this
+	
 
 	public static void main(String[] args){
 
