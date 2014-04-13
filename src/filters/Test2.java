@@ -15,13 +15,13 @@ import utility.ColorConverter;
  */
 
 
-public class ImageTest {
+public class Test2 {
 
 	public static void main(String[] args){
 
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("TestTwo.jpg"));
+			img = ImageIO.read(new File("TestImage.jpg"));
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -31,8 +31,8 @@ public class ImageTest {
 		int startY = 0;
 		int endX = img.getWidth();
 		int endY = img.getHeight();
-		int width = 27;
-		int height = 27;
+		int width = 100;
+		int height = 100;
 
 		BufferedImage newImage = new BufferedImage(img.getWidth() / width,
 				img.getHeight() / height, img.getType());
@@ -80,24 +80,15 @@ public class ImageTest {
 							rgb[k] = k;
 					} //else
 				}// for
+				
+				for(int x = i; x < i + width; x++){
+					for(int y = j; y < j + height; y++){
 
-				//								rgb[0] &= 0xF0;
-				//								rgb[1] &= 0xF0;
-				//								rgb[2] &= 0xF0;
-				//								
-				//								rgb[0] /= 64;
-				//								rgb[0] *= 64;
-				//								rgb[1] /= 64;
-				//								rgb[1] *= 64;
-				//								rgb[2] /= 64;
-				//								rgb[2] *= 64;
-				//
-				//				rgb[0] *= 3;
-				//				rgb[1] *= 3;
-				//				rgb[2] *= 3;
-
-				int pixel = ColorConverter.RGBtoHex(rgb[0], rgb[1], rgb[2]);
-				newImage.setRGB(i / width, j / height, pixel);
+						int pixel = ColorConverter.RGBtoHex(rgb[0], rgb[1], rgb[2]);
+						
+						img.setRGB(i, j, pixel);
+					} //for
+				} //for	
 			} //for
 		} //for
 
@@ -113,70 +104,71 @@ public class ImageTest {
 		//		} //try catch
 
 
-		boolean[][] points = new boolean[img.getWidth()][img.getHeight()];
-
-		//		img = scale(newImage, height);
-
-		//MAKES BLACK BORDER	
-		for(int i = 0; i < img.getWidth(); i++){
-			for(int j = 0; j < img.getHeight(); j++){
-
-				System.out.println("Calculating Border (" + i +", " + j + ")");
-
-				int color = img.getRGB(i, j);
-
-				if(i > 0){
-
-					if(j > 0){
-
-						if(color != img.getRGB(i - 1, j - 1))
-							points[i][j] = true;
-					}//if
-
-					if(j < img.getHeight() - 1){
-
-						if(color != img.getRGB(i - 1, j + 1))
-							points[i][j] = true;
-					} //if
-
-					if(color != img.getRGB(i - 1, j))
-						points[i][j] = true;
-				} //if
-
-				if(i < img.getWidth() - 1){
-
-					if(j > 0){
-
-						if(color != img.getRGB(i + 1, j - 1))
-							points[i][j] = true;
-					}//if
-
-					if(j < img.getHeight() - 1){
-
-						if(color != img.getRGB(i + 1, j + 1))
-							points[i][j] = true;
-					} //if
-
-					if(color != img.getRGB(i + 1, j))
-						points[i][j] = true;
-				} //if
-
-				if(j > 0)
-					if(color != img.getRGB(i, j - 1))
-						points[i][j] = true;
-
-				if(j < img.getHeight() - 1)
-					if(color != img.getRGB(i, j + 1))
-						points[i][j] = true;
-			} //for
-		} //for
-
-		for(int i = 0; i < points.length; i++)
-			for(int j = 0; j < points[i].length; j++){
-				
-				System.out.println("Painting Border (" + i +", " + j + ")");
-				img.setRGB(i, j, 0);
-			} //for
+//		boolean[][] points = new boolean[img.getWidth()][img.getHeight()];
+//
+//		//		img = scale(newImage, height);
+//
+//		//MAKES BLACK BORDER	
+//		for(int i = 0; i < img.getWidth(); i++){
+//			for(int j = 0; j < img.getHeight(); j++){
+//
+//				System.out.println("Calculating Border (" + i +", " + j + ")");
+//
+//				int color = img.getRGB(i, j);
+//
+//				if(i > 0){
+//
+//					if(j > 0){
+//
+//						if(color != img.getRGB(i - 1, j - 1))
+//							points[i][j] = true;
+//					}//if
+//
+//					if(j < img.getHeight() - 1){
+//
+//						if(color != img.getRGB(i - 1, j + 1))
+//							points[i][j] = true;
+//					} //if
+//
+//					if(color != img.getRGB(i - 1, j))
+//						points[i][j] = true;
+//				} //if
+//
+//				if(i < img.getWidth() - 1){
+//
+//					if(j > 0){
+//
+//						if(color != img.getRGB(i + 1, j - 1))
+//							points[i][j] = true;
+//					}//if
+//
+//					if(j < img.getHeight() - 1){
+//
+//						if(color != img.getRGB(i + 1, j + 1))
+//							points[i][j] = true;
+//					} //if
+//
+//					if(color != img.getRGB(i + 1, j))
+//						points[i][j] = true;
+//				} //if
+//
+//				if(j > 0)
+//					if(color != img.getRGB(i, j - 1))
+//						points[i][j] = true;
+//
+//				if(j < img.getHeight() - 1)
+//					if(color != img.getRGB(i, j + 1))
+//						points[i][j] = true;
+//			} //for
+//		} //for
+//
+//		for(int i = 0; i < points.length; i++)
+//			for(int j = 0; j < points[i].length; j++){
+//				
+//				System.out.println("Painting Border (" + i +", " + j + ")");
+//				if(points[i][j])
+//					img.setRGB(i, j, 0);
+//			} //for
 				output = new File("TestTwoOut" + width + ".jpg");
 
 				try {
