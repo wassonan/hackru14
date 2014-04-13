@@ -58,14 +58,15 @@ public class Pixelate {
 
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("TestImageThree.jpg"));
+			img = ImageIO.read(new File("TestImageFour.jpg"));
 		} catch (IOException e) {
 
 			System.out.println("Image Not Found");
 			e.printStackTrace();
 		}//try catch 
 
-		pixilate(img, 27);
+//		pixilate(img, 9);
+		Border.drawBorder(img, Border.getBorderLocation(img, 30));
 		
 		File output = new File("TestOut.jpg");
 

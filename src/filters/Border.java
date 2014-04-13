@@ -16,6 +16,12 @@ public class Border {
 		drawBorder(img, getBorderLocation(img));
 	} //border
 	
+	//adds a border between areas of different color
+	public static void border(BufferedImage img, int thresh){
+
+		drawBorder(img, getBorderLocation(img, thresh));
+	} //border
+	
 	//returns the array that represents the border location
 	public static boolean[][] getBorderLocation(BufferedImage img){
 		
@@ -77,6 +83,73 @@ public class Border {
 		return points;
 	} //getBorderLocation
 	
+public static boolean[][] getBorderLocation(BufferedImage img, int thresh){
+		
+		boolean[][] points = new boolean[img.getWidth()][img.getHeight()];
+
+		for(int i = 0; i < img.getWidth(); i++){
+			for(int j = 0; j < img.getHeight(); j++){
+
+				System.out.println("Calculating Border (" + i +", " + j + ")");
+
+				int color = img.getRGB(i, j);
+
+				if(i > 0){
+
+					if(j > 0){
+
+						if(Utility.distance(color, img.getRGB(i - 1, j - 1)) > 
+						thresh)
+							points[i][j] = true;
+					}//if
+
+					if(j < img.getHeight() - 1){
+
+						if(Utility.distance(color, img.getRGB(i - 1, j + 1)) > 
+						thresh)
+							points[i][j] = true;
+					} //if
+
+					if(Utility.distance(color, img.getRGB(i - 1, j)) > 
+					thresh)
+						points[i][j] = true;
+				} //if
+
+				if(i < img.getWidth() - 1){
+
+					if(j > 0){
+
+						if(Utility.distance(color, img.getRGB(i + 1, j - 1)) > 
+						thresh)
+							points[i][j] = true;
+					}//if
+
+					if(j < img.getHeight() - 1){
+
+						if(Utility.distance(color, img.getRGB(i + 1, j + 1)) > 
+						thresh)
+							points[i][j] = true;
+					} //if
+
+					if(Utility.distance(color, img.getRGB(i + 1, j)) > 
+					thresh)
+						points[i][j] = true;
+				} //if
+
+				if(j > 0)
+					if(Utility.distance(color, img.getRGB(i, j - 1)) > 
+					thresh)
+						points[i][j] = true;
+
+				if(j < img.getHeight() - 1)
+					if(Utility.distance(color, img.getRGB(i, j + 1)) > 
+					thresh)
+						points[i][j] = true;
+			} //for
+		} //for		
+		
+		return points;
+	} //getBorderLocation
 	
 	//paints the border based on the passed in locations
 	public static void drawBorder(BufferedImage img, boolean[][] points){
