@@ -1,4 +1,4 @@
-package com.ru.hack;
+package gui;
 
 public class ColorConverter {
 
