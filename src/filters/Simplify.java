@@ -16,7 +16,8 @@ import utility.Utility;
 public class Simplify {
 
 	final static int[] colors = {Color.WHITE.getRGB(), Color.BLUE.getRGB(),
-			Color.RED.getRGB(), Color.YELLOW.getRGB(), Color.BLACK.getRGB()}; 
+			Color.RED.getRGB(), Color.YELLOW.getRGB(), Color.BLACK.getRGB(), 
+			Color.GREEN.getRGB()}; 
 
 	//simplifies the picture colors
 	public static void simplify(BufferedImage img){

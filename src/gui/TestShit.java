@@ -9,6 +9,8 @@ import java.awt.event.*;
 
 import javax.swing.*; 
 
+import utility.Utility;
+
 import filters.*;
 
 public class TestShit extends JFrame {
@@ -20,13 +22,15 @@ public class TestShit extends JFrame {
 	JPanel pane; // main pain holding everything, held by bg
 	PicPanel optionsPane = new PicPanel(new FlowLayout());
 	JPanel imgPane = new JPanel(new FlowLayout(FlowLayout.CENTER, 10,10));
+	JPanel loadingPane = new JPanel(new BorderLayout());
 	BackgroundPanel titlePane;
+	JLabel load = new JLabel();
 	JLabel pre;
 	JLabel post;
 	JTextField url;
 	Dimension screenSize;
 	JComboBox task;
-	String[] options =  {"Pixelate", "Blur", "Wash"};
+	String[] options =  {"Pixelate", "Blur", "Wash", "Polygonize", "Dithering", "Border"};
 	TestShit() 
 	{ 
 		super("The Amazing Picture Shitty-ifier");
@@ -57,7 +61,12 @@ public class TestShit extends JFrame {
 		Container con = this.getContentPane();
 		BGPanel.add(pane);	
 		con.add(BGPanel);
-
+		try {
+			load.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new File("Loading.gif")), (int)(screenSize.width*5/11), (int)(screenSize.height*5/11))));
+		} catch (IOException e) {
+		}
+		loadingPane.add(load, BorderLayout.CENTER);
+		load.setOpaque(false);
 		JLabel label = new JLabel("Image Path:");
 		label.setFont(new Font("Dialog", Font.BOLD, 28));
 		optionsPane.add(label);
@@ -66,7 +75,7 @@ public class TestShit extends JFrame {
 		JButton browse = new JButton("Browse");
 		browse.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jfc = new JFileChooser();
+				JFileChooser jfc = new JFileChooser("/Users/enzoramferrari/Documents/SCHOOL/UMCP/SOPHOMORE/HACKRU/Picture Shitty-ifier/Pictures");
 				int returnVal = jfc.showOpenDialog(pane);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					imageIn = jfc.getSelectedFile().toString();
@@ -96,8 +105,22 @@ public class TestShit extends JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				load.setOpaque(true);
+				load.repaint();
+				pane.validate();
+				pane.repaint();
 				if(task.getSelectedItem().toString() == options[0]){
 					Pixelate.pixilate(img, 9);
+				}else if(task.getSelectedItem().toString() == options[1]){
+					Blur.blur(img, 3);
+				}else if(task.getSelectedItem().toString() == options[2]){
+					Simplify.simplify(img);
+				}else if(task.getSelectedItem().toString() == options[3]){
+					img = Polygonize.autoPolygonizeForLazyRam2(img);
+				}else if(task.getSelectedItem().toString() == options[4]){
+					Dithering.dither(img, 1, 1);
+				}else if(task.getSelectedItem().toString() == options[5]){
+					Border.border(img, 30);
 				}
 				File output = new File("TestOut.jpg");
 				try {
@@ -111,6 +134,8 @@ public class TestShit extends JFrame {
 					post.setIcon(new ImageIcon(getScaledImage(ImageIO.read(new File(imageOut)), (int)(screenSize.width*5/11), (int)(screenSize.height*5/11))));
 				} catch (IOException e) {
 				}
+				load.setOpaque(false);
+				load.repaint();
 				post.repaint();
 				pane.validate();
 				pane.repaint();
@@ -135,6 +160,7 @@ public class TestShit extends JFrame {
 		pane.add(titlePane, BorderLayout.PAGE_START);
 		pane.add(imgPane, BorderLayout.SOUTH);
 		pane.add(optionsPane, BorderLayout.CENTER);
+		loadingPane.setOpaque(false);
 		optionsPane.setOpaque(false);
 		imgPane.setOpaque(false);
 		titlePane.setOpaque(false);
